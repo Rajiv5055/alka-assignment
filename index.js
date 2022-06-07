@@ -46,4 +46,36 @@ app.post('/get_link_token', async(req, res) => {
     }
   });
 })
+
+app.post('/get_access_token', async(req, res) => {
+
+  const {publicToken} = req.body
+  const response = await client
+    .exchangePublicToken(publicToken)
+    .catch((err) => {
+      if(!publicToken){
+        return "no public token"
+      }
+    });
+  const itemId = response.item_id;
+  return res.send({access_token: response.access_token}) 
+})
+
+app.post('/transactions', async(req, res) =>{
+  const {accessToken} = req.body
+  const response = await client
+  .getTransactions(accessToken, '2020-01-01', '2021-01-31', {
+    count: 250,
+    offset: 0,
+  })
+  .catch((err) => {
+    if(!accessToken){
+      return "no access token"
+    }
+  });
+  const transactions = response.transactions
+  console.log(transactions)
+  return res.send({transactions: transactions}) 
+})
+
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
