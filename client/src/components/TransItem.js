@@ -1,13 +1,12 @@
 import React from 'react';
+// import { supabase } from './SupabaseConnection';
 
-const TransItem = props => {
-    console.log(props.category)
+function TransItem (props) {
     return(
         <tbody>
            <tr>
                <td>{props.date}</td>
                <td>{props.category[0]}</td>
-               <td>{props.category[1] ? props.category[1] : null} {props.category[2] ? `- ${props.category[2]}` : null}</td>
                <td>{props.name}</td>
                <td>{props.amount}</td>
             </tr> 

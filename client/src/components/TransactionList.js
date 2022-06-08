@@ -1,11 +1,11 @@
 import React from 'react';
-import TransItem from './TransItem'
 import { Table } from 'reactstrap'
+import InsertData from './InsertData'
 
 class TransactionList extends React.Component {
     
     transList = () => {
-        return this.props.transactions.map(trans => <TransItem key={trans.transaction_id} account_id={trans.account_id} amount={trans.amount} category={trans.category} date={trans.date} name={trans.name} payment_channel={trans.payment_channel} />)
+        return this.props.transactions.map(trans => <InsertData trans = {trans} />)
     }
     
     render() {
@@ -17,7 +17,6 @@ class TransactionList extends React.Component {
                     <tr>
                         <th>Date</th>
                         <th>Category</th>
-                        <th>Subcategory</th>
                         <th>Description</th>
                         <th>Amount</th>
                     </tr>

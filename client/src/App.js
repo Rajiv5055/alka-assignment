@@ -5,6 +5,7 @@ import axios from "axios";
 import TransactionsContainer from './components/TransactionsContainer'
 import { Route, withRouter, Switch } from 'react-router-dom';
 
+
 class App extends React.Component {
   state = {
             token: null, 
@@ -40,7 +41,7 @@ class App extends React.Component {
     return (
       <>
       <div className="App">
-         {this.state.access_token === null ? <Link token={this.state.token} accessToken={this.state.access_token} getAccessToken={this.getAccessToken} /> : 
+      {  this.state.access_token === null ? <Link token={this.state.token} accessToken={this.state.access_token} getAccessToken={this.getAccessToken} /> : 
         <Switch>
           <Route path="/home" render={(routerprops) =><TransactionsContainer accessToken={this.state.access_token} />} />
         </Switch>
