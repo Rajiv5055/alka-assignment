@@ -1,11 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { Route, withRouter, Switch } from 'react-router-dom';
-//import TransactionList from './TransactionList';
-//import ShowData from './ShowData';
 import InsertData from './InsertData';
 
-
+// To get transaction list from Plaid
 class Transactions extends React.Component {
     state = {transactions: []}
     
@@ -18,7 +16,6 @@ class Transactions extends React.Component {
         const res = await axios.post('http://localhost:5000/transactions', {accessToken: accessToken})
         let transactions = res.data.transactions
         this.setState({ transactions: transactions })
-
     }
 
     render(){
