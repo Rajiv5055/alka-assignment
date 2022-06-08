@@ -74,7 +74,6 @@ app.post('/transactions', async(req, res) =>{
     }
   });
   const transactions = response.transactions
-  console.log(transactions)
   return res.send({transactions: transactions}) 
 })
 
