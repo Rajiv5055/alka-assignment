@@ -16,7 +16,6 @@ const plaid = require('plaid');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
 const client = new plaid.Client({
     clientID: process.env.PLAID_CLIENT_ID,
     secret: process.env.PLAID_SECRET,
