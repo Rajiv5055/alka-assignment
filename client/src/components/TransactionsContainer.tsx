@@ -4,15 +4,19 @@ import { Route, withRouter, Switch, RouteComponentProps } from 'react-router-dom
 import InsertData from './InsertData';
 
 // To get transaction list from Plaid
-class Transactions extends React.Component<RouteComponentProps> {
+type AppProps = {
+    accessToken : any;
+}
+class Transactions extends React.Component<AppProps & RouteComponentProps> {
     state = {transactions: []}
-
     componentDidMount(){
         this.getTransactions()
     }  
 
     getTransactions = async () => {
-        const accessToken: string | null = this.props.accessToken
+        const accessToken = this.props.accessToken
+        console.log(this.props);
+
         const res = await axios.post('http://localhost:5000/transactions', {accessToken: accessToken})
         let transactions = res.data.transactions
         this.setState({ transactions: transactions })

@@ -4,28 +4,19 @@ import { useState } from 'react';
 import TransItem from './TransItem'
 import { Table } from 'reactstrap'
 
-interface user {
-    account_id: string;
-    amount: number;
-    category: string;
-    date: string;
-    description: string;
-    id: number;
-    name: string;
-    transaction_id: string;
-}
 // To fetch and show data from supabase(database)
 function ShowData () {
-   const [posts, setPosts] = useState<user[]>([]);
-   const [showtable, setShowtable] = useState<boolean>(false);;
+   const [posts, setPosts] = useState<any[]|null>([])
+   const [showtable, setShowtable] = useState(false);
 
    function disableTable(){
      setShowtable(false)
    }
   
    async function fetchPosts() {
-    const data:user[]  = await supabase.from('expenses').select()
+    const { data } = await supabase.from('expenses').select()
     setPosts(data)
+    console.log(data)
     setShowtable(true);
    }
 
@@ -44,7 +35,11 @@ function ShowData () {
                         <th>Amount</th>
                     </tr>
                 </thead>
-                {posts.map(post => <TransItem key={post.transaction_id} account_id={post.account_id} amount={post.amount} category={post.category} date={post.date} name={post.name}/>)}
+                { posts === null ? 
+                  <div></div>
+                  :
+                  posts.map(post => <TransItem key={post.transaction_id} account_id={post.account_id} amount={post.amount} category={post.category} date={post.date} name={post.name}/>)
+                }
          </Table>
          <button onClick={disableTable} style={{ paddingLeft: '20px',paddingRight: '20px', fontSize: '16px', cursor: 'pointer' }}> back </button>
         </div>

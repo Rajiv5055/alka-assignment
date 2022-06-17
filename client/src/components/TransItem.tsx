@@ -1,15 +1,14 @@
 import React from 'react';
 
-interface prop{
-    key:string;
-    account_id: string;
-    amount: number;
-    category: string;
-    date: string;
-    name: string;
+type AppProps = {
+    key: any;
+    account_id: any;
+    amount: any;
+    category: any;
+    date: any; 
+    name: any;
 }
-
-function TransItem (props:prop) {
+function TransItem (props: AppProps) {
     return(
         <tbody>
            <tr>

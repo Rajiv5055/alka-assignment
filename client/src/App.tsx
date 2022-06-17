@@ -3,21 +3,18 @@ import "./App.css";
 import Link from "./components/Link";
 import axios from "axios";
 import TransactionsContainer from './components/TransactionsContainer'
-import { Route, withRouter, Switch, RouteComponentProps } from 'react-router-dom';
+import { Route, withRouter, Switch,RouteComponentProps } from 'react-router-dom';
 
-interface publicToken {
-  publicToken: string;
-}
-interface accessToken {
-  access_token: string | null;
-  token: string| null;
+interface accesstoken {
+  access_token: any;
+  token: any;
 }
 
-class App extends React.Component<accessToken & RouteComponentProps> {
-  state: accessToken =  {
-            token: null,
+class App extends React.Component<RouteComponentProps> {
+  state:accesstoken = {
+            token: null, 
             access_token: null
-  }
+          }
 
   //connects to plaid to create temporary link token
   createLinkToken = async () => {
@@ -32,8 +29,8 @@ class App extends React.Component<accessToken & RouteComponentProps> {
   }  
 
  //if link token is successfully created, user can click on button to exchange public token for an access token
-  getAccessToken = async ({publicToken} : publicToken) => {
-
+  getAccessToken = async (publicToken:any) => {
+    console.log(publicToken)
     const res = await axios.post('http://localhost:5000/get_access_token', {publicToken: publicToken})
     const data = res.data.access_token
     
@@ -50,7 +47,7 @@ class App extends React.Component<accessToken & RouteComponentProps> {
         <Link token={this.state.token} accessToken={this.state.access_token} getAccessToken={this.getAccessToken} /> 
         : 
         <Switch>
-          <Route path="/home" render={(routerprops) =><TransactionsContainer accessToken = {this.state.access_token} />} />
+          <Route path="/home" render={(routerprops) =><TransactionsContainer accessToken={this.state.access_token} />} />
         </Switch>
       } 
       </div>
