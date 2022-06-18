@@ -16,7 +16,6 @@ function ShowData () {
    async function fetchPosts() {
     const { data } = await supabase.from('expenses').select()
     setPosts(data)
-    console.log(data)
     setShowtable(true);
    }
 
