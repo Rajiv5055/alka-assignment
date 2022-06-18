@@ -30,7 +30,7 @@ class App extends React.Component<RouteComponentProps> {
 
  //if link token is successfully created, user can click on button to exchange public token for an access token
   getAccessToken = async (publicToken:any) => {
-    console.log(publicToken)
+    
     const res = await axios.post('http://localhost:5000/get_access_token', {publicToken: publicToken})
     const data = res.data.access_token
     
