@@ -4,7 +4,7 @@ import Link from "./components/Link";
 import axios from "axios";
 import TransactionsContainer from './components/TransactionsContainer'
 import { Route, withRouter, Switch,RouteComponentProps } from 'react-router-dom';
-
+import LinktoTeller from './components/LinktoTeller';
 interface accesstoken {
   access_token: any;
   token: any;
@@ -30,7 +30,7 @@ class App extends React.Component<RouteComponentProps> {
 
  //if link token is successfully created, user can click on button to exchange public token for an access token
   getAccessToken = async (publicToken:any) => {
-    
+  
     const res = await axios.post('http://localhost:5000/get_access_token', {publicToken: publicToken})
     const data = res.data.access_token
     
@@ -43,6 +43,7 @@ class App extends React.Component<RouteComponentProps> {
     return (
       <>
       <div className="App">
+        <LinktoTeller/>
       {  this.state.access_token === null ? 
         <Link token={this.state.token} accessToken={this.state.access_token} getAccessToken={this.getAccessToken} /> 
         : 
