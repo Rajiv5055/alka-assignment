@@ -15,7 +15,6 @@ class Transactions extends React.Component<AppProps & RouteComponentProps> {
 
     getTransactions = async () => {
         const accessToken = this.props.accessToken
-        console.log(this.props);
 
         const res = await axios.post('http://localhost:5000/transactions', {accessToken: accessToken})
         let transactions = res.data.transactions
