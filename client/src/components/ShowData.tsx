@@ -14,9 +14,13 @@ function ShowData () {
    }
   
    async function fetchPosts() {
+    let isMounted = true;
     const { data } = await supabase.from('expenses').select()
-    setPosts(data)
-    setShowtable(true);
+    if(isMounted){
+      setPosts(data)
+      setShowtable(true);
+    }
+    return ()=> {isMounted = false};
    }
 
     return(

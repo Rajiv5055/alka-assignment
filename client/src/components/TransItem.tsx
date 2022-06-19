@@ -1,5 +1,3 @@
-import React from 'react';
-
 type AppProps = {
     key: any;
     account_id: any;

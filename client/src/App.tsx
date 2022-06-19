@@ -1,60 +1,32 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import "./App.css";
-import Link from "./components/Link";
-import axios from "axios";
-import TransactionsContainer from './components/TransactionsContainer'
-import { Route, withRouter, Switch,RouteComponentProps } from 'react-router-dom';
-import LinktoTeller from './components/LinktoTeller';
-interface accesstoken {
-  access_token: any;
-  token: any;
-}
+import LinktoPlaid from "./components/LinktoPlaid";
+import { withRouter,RouteComponentProps } from 'react-router-dom';
+import LinkToTeller from './components/LinkToTeller';
 
-class App extends React.Component<RouteComponentProps> {
-  state:accesstoken = {
-            token: null, 
-            access_token: null
-          }
-
-  //connects to plaid to create temporary link token
-  createLinkToken = async () => {
-    const res = await axios.post('http://localhost:5000/create_link_token');
-    const data = res.data.link_token
-    this.setState({ token: data })
-  }
-
-  //creates user link token upon page load
-  componentDidMount(){
-    this.createLinkToken()
-  }  
-
- //if link token is successfully created, user can click on button to exchange public token for an access token
-  getAccessToken = async (publicToken:any) => {
-  
-    const res = await axios.post('http://localhost:5000/get_access_token', {publicToken: publicToken})
-    const data = res.data.access_token
-    
-    this.setState({ access_token: data})
-     this.props.history.push("/home")
-  }
-
-
-  render(){
+function App() {  
+   const [where, setWhere] = useState("");
+    function startPlaid(){
+      setWhere("Plaid");
+    }
+    function startTeller(){
+      setWhere("Teller");
+    }
     return (
-      <>
       <div className="App">
-        <LinktoTeller/>
-      {  this.state.access_token === null ? 
-        <Link token={this.state.token} accessToken={this.state.access_token} getAccessToken={this.getAccessToken} /> 
-        : 
-        <Switch>
-          <Route path="/home" render={(routerprops) =><TransactionsContainer accessToken={this.state.access_token} />} />
-        </Switch>
-      } 
+      <button onClick = {startPlaid} style={{padding: '20px', fontSize: '16px', cursor: 'pointer',borderRadius:'10px' }}> Open Plaid </button>
+      <button onClick = {startTeller} style={{padding: '20px', fontSize: '16px', cursor: 'pointer',borderRadius:'10px' }}> Open Teller </button>
+      <div className="App">
+        {
+          where === "Plaid" 
+          ?  <LinktoPlaid /> : 
+          where==="Teller"
+          ?  <LinkToTeller/> :
+          <div></div>
+        }     
       </div>
-      </>
+      </div>
     );
-  }
 }
 
 export default withRouter(App);
