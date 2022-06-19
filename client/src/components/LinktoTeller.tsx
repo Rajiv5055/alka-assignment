@@ -16,15 +16,19 @@ type enrollments = {
   signatures: [];
   user: user;
 }
-type setup = {
-  setup: (arg0: any)=> any;
-  version: string;
+
+/*type tellerConnect = {
+ setup:(a: elements) => void;
+ version: any;
 }
+
 declare global {
-  interface Window { 
-    TellerConnect: setup;
-   }
-}
+  interface Window {
+      TellerConnect:tellerConnect;
+  }
+}*/
+
+declare const window: any;
 
 function LinktoTeller() {
   
@@ -47,7 +51,7 @@ function LinktoTeller() {
           console.log("User closed Teller Connect");
         }
     });
-
+    
     var el = document.getElementById("myButton");
     if(el !== null)
       el.addEventListener("click", function() {
