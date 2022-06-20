@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const cors = require('cors');
 const plaid = require('plaid');
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 const app = express();
 app.use(cors());
@@ -79,11 +79,18 @@ app.post('/transactions', async(req, res) =>{
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
 
-app.get('/account', (req,res)=>{
-  const accessToken = req.params.accessToken;
-  fetch('https://api.teller.io/accounts', {
-     Authentication : `Bearer ${accessToken}`
-   })
-   .then(res => res.json())
-   .catch(err => console.log(err));
-})
+app.get('/accounts', async(req,res)=>{
+  const accessToken = req.query.accessToken;
+  try {
+    const response = await axios("https://api.teller.io/accounts", {
+      auth : {
+        username : accessToken,
+        password : ""
+      }
+    });
+     res.status(200).json(response.data);
+  }
+  catch(err){
+    res.status(500).json({meassage:err});
+  }   
+});
