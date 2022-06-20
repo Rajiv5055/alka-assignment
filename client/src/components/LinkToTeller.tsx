@@ -28,13 +28,13 @@ function LinkToTeller() {
   useEffect(() => {
     
     async function getAccountDetails(accessToken: String){
-      const headers : any ={
-        'Authorization' : `Bearer ${accessToken}`
-      }
-      await axios.get("https://api.teller.io/accounts", { headers })
-            .then((response: any)=>{
-                console.log(response.account);
-            })
+
+      const res = await axios.get('http://localhost:5000/account', {
+        params: {
+          accessToken : accessToken
+        }
+      })
+                console.log(res);
    }
 
     const script = document.createElement("script");
@@ -47,6 +47,8 @@ function LinkToTeller() {
         onInit: function() {
           console.log("Teller Connect has initialized");
         },
+
+        
         // Part 3. Handle a successful enrollment's accessToken
         onSuccess: function(enrollment:enrollments) {
           console.log("User enrolled successfully ->", enrollment.accessToken);

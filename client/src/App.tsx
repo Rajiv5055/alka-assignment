@@ -12,6 +12,7 @@ function App() {
     function startTeller(){
       setWhere("Teller");
     }
+    
     return (
       <div className="App">
       <button onClick = {startPlaid} style={{padding: '20px', fontSize: '16px', cursor: 'pointer',borderRadius:'10px' }}> Open Plaid </button>
