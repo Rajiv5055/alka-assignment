@@ -1,10 +1,10 @@
 type AppProps = {
-    key: any;
-    account_id: any;
-    amount: any;
-    category: any;
+    key: number;
+    account_id: string;
+    amount: string;
+    category: string;
     date: any; 
-    name: any;
+    name: string;
 }
 function TransItem (props: AppProps) {
     return(
@@ -19,4 +19,4 @@ function TransItem (props: AppProps) {
     )
 }
 
-export default TransItem
+export default TransItem;

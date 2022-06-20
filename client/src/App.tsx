@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import {useState} from 'react';
 import "./App.css";
 import LinktoPlaid from "./components/LinktoPlaid";
-import { withRouter,RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import LinkToTeller from './components/LinkToTeller';
 
 function App() {  

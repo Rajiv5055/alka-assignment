@@ -1,11 +1,10 @@
-import React from 'react';
 import { supabase } from './SupabaseConnection';
 import { useState } from 'react';
 import TransItem from './TransItem'
 import { Table } from 'reactstrap'
 
 // To fetch and show data from supabase(database)
-function ShowData () {
+function ShowData() {
    const [posts, setPosts] = useState<any[]|null>([])
    const [showtable, setShowtable] = useState(false);
 

@@ -5,7 +5,7 @@ import InsertData from './InsertData';
 
 // To get transaction list from Plaid
 type AppProps = {
-    accessToken : any;
+    accessToken : string | null;
 }
 class Transactions extends React.Component<AppProps & RouteComponentProps> {
     state = {transactions: []}

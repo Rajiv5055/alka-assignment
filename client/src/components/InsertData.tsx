@@ -3,29 +3,29 @@ import ShowData from './ShowData';
 
 // To insert data into Supabase(database)
 type location = {
-  address: any;
-  city: any;
-  country: any;
+  address: string | null;
+  city: string | null;
+  country: string | null;
   lat: any;
   lon: any;
   postal_code: any;
-  region: any;
+  region: string | null;
   store_number: any;
 }
 type payment = {
-  by_order_of: any;
-  payee: any;
-  payer: any;
-  payment_method: any;
-  payment_processor: any;
-  ppd_id: any;
-  reason: any;
-  reference_number: any;
+  by_order_of: string | null;
+  payee: string | null;
+  payer: string | null;
+  payment_method: string | null;
+  payment_processor: string | null;
+  ppd_id: string | null;
+  reason: string | null;
+  reference_number: string | null;
 }
 
 type transaction ={
   account_id: string;
-account_owner: any;
+account_owner: string;
 amount: number;
 authorized_date: any;
 authorized_datetime: any;
