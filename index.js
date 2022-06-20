@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const cors = require('cors');
 const plaid = require('plaid');
+const fetch = require('node-fetch');
 
 const app = express();
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.json());
 
 const client = new plaid.Client({
@@ -57,7 +58,6 @@ app.post('/get_access_token', async(req, res) => {
         return "no public token"
       }
     });
-  const itemId = response.item_id;
   return res.send({access_token: response.access_token}) 
 })
 
@@ -78,3 +78,12 @@ app.post('/transactions', async(req, res) =>{
 })
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
+
+app.get('/account', (req,res)=>{
+  const accessToken = req.params.accessToken;
+  fetch('https://api.teller.io/accounts', {
+     Authentication : `Bearer ${accessToken}`
+   })
+   .then(res => res.json())
+   .catch(err => console.log(err));
+})
