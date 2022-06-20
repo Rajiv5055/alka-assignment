@@ -24,7 +24,6 @@ class LinktoPlaid extends React.Component<RouteComponentProps> {
     if(this._isMounted)
     this.setState({ token: data })
   }
-
   //creates user link token upon page load
   componentDidMount(){
     this._isMounted = true;

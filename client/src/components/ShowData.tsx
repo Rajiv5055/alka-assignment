@@ -17,6 +17,7 @@ function ShowData() {
     const { data } = await supabase.from('expenses').select()
     if(isMounted){
       setPosts(data)
+      console.log(data);
       setShowtable(true);
     }
     return ()=> {isMounted = false};

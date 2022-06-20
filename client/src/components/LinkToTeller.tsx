@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useEffect} from 'react';
+import {useState,useEffect} from 'react';
 
 type enrollment = {
   id: string;
@@ -11,7 +11,6 @@ type user = {
   id: string;
 }
 
-
 type enrollments = {
   accessToken: string;
   enrollment: enrollment;
@@ -19,36 +18,58 @@ type enrollments = {
   signatures: [];
   user: user;
 }
+type Acc_institution ={
+  id: string | null;
+  name: string | null;
+}
+type links = {
+  balances: string | null;
+  self: string | null;
+  transactions : string | null;
+}
+type accounts = {
+  currency: string | null;
+  enrollment_id: string | null;
+  id: string | null;
+  institution: Acc_institution;
+  last_four: string | null;
+  links: links;
+  name: string | null;
+  status: string | null;
+  subtype: string | null;
+  type: string | null;
+}
+
 declare const window:any;
 
 function LinkToTeller() {
-  //const [account,setAccount] = useState({});
+  const [accounts,setAccounts] = useState<accounts[]|null>([]);
 
- 
+  async function getAccountDetails(accessToken: string|null){
+
+    const res = await axios.get('http://localhost:5000/accounts', {
+     params:{
+      accessToken:accessToken
+     } 
+    })
+       setAccounts(res.data);
+       console.log(res.data);
+       console.log(accounts);
+ }
+
+
   useEffect(() => {
     
-    async function getAccountDetails(accessToken: String){
-
-      const res = await axios.get('http://localhost:5000/account', {
-        params: {
-          accessToken : accessToken
-        }
-      })
-                console.log(res);
-   }
-
     const script = document.createElement("script");
     script.src = "https://cdn.teller.io/connect/connect.js";
     script.async = true;
     document.head.appendChild(script);
-    var tellerConnect = window.TellerConnect.setup({
+    var tellerConnect: any = window.TellerConnect.setup({
         applicationId: "app_o2qpi4tealt28kqksq000",
         environment: "sandbox",
         onInit: function() {
           console.log("Teller Connect has initialized");
         },
-
-        
         // Part 3. Handle a successful enrollment's accessToken
         onSuccess: function(enrollment:enrollments) {
           console.log("User enrolled successfully ->", enrollment.accessToken);
@@ -66,6 +87,7 @@ function LinkToTeller() {
     el.addEventListener("click", function() {
        tellerConnect.open();
     });
+
   }, []);
 
 
