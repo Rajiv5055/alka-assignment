@@ -9,7 +9,7 @@ type AppProps = {
 }
 class Transactions extends React.Component<AppProps & RouteComponentProps> {
     state = {transactions: []}
-    _isMounted = false;
+    _isMounted:boolean = false;
     componentDidMount(){
         this.getTransactions()
     }  

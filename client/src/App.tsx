@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import LinkToTeller from './components/LinkToTeller';
 
 function App() {  
-   const [where, setWhere] = useState("");
+   const [where, setWhere] = useState<string>("");
     function startPlaid(){
       setWhere("Plaid");
     }
@@ -15,17 +15,18 @@ function App() {
     
     return (
       <div className="App">
-      <button onClick = {startPlaid} style={{padding: '20px', fontSize: '16px', cursor: 'pointer',borderRadius:'10px' }}> Open Plaid </button>
-      <button onClick = {startTeller} style={{padding: '20px', fontSize: '16px', cursor: 'pointer',borderRadius:'10px' }}> Open Teller </button>
-      <div className="App">
-        {
+        { where === "" ?
+          <div>
+          <button onClick = {startPlaid} style={{padding: '20px', fontSize: '16px', cursor: 'pointer',borderRadius:'10px' }}> Open Plaid </button>
+          <button onClick = {startTeller} style={{padding: '20px', fontSize: '16px', cursor: 'pointer',borderRadius:'10px' }}> Open Teller </button>
+          </div>
+          :
           where === "Plaid" 
           ?  <LinktoPlaid /> : 
           where==="Teller"
           ?  <LinkToTeller/> :
           <div></div>
         }     
-      </div>
       </div>
     );
 }

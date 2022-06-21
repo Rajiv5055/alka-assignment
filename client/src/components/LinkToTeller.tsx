@@ -43,20 +43,21 @@ type accounts = {
 
 declare const window:any;
 
+
 function LinkToTeller() {
    const [accounts,setAccounts] = useState<accounts[] | null>([]);
    const [accountid, setAccountid] = useState<accounts["id"]>("");
    const [transactionlink, setTransactionlink] = useState<string | null>("");
   
-   
    async function getTransactions(){
         const res = await axios.get('http://localhost:5000/getTransactions', {
           params: {
-            transactionlink : transactionlink
+            accountid : accountid
           }
         });
         console.log(res);
    }
+   
    async function getAccountDetails(accessToken: string|null){
     const res = await axios.get('http://localhost:5000/accounts', {
      params:{
@@ -97,7 +98,6 @@ function LinkToTeller() {
     });
 
   }, []);
-
   return (
     <div className="App">
      {
