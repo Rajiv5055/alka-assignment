@@ -94,3 +94,17 @@ app.get('/accounts', async(req,res)=>{
     res.status(500).json({meassage:err});
   }   
 });
+
+app.get('/getTransactions', async(req,res)=>{
+ const url = req.query.transactionlink;
+ console.log(url);
+  try{
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+    console.log(res); 
+   }
+   catch(err){
+    res.status(500).json({message:err});
+    console.log(err);
+   }
+});
