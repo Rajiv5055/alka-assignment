@@ -27,6 +27,7 @@ type links = {
   self: string | null;
   transactions : string | null;
 }
+
 type accounts = {
   currency: string | null;
   enrollment_id: string | null;
@@ -43,23 +44,30 @@ type accounts = {
 declare const window:any;
 
 function LinkToTeller() {
-  const [accounts,setAccounts] = useState<accounts[]|null>([]);
-
-  async function getAccountDetails(accessToken: string|null){
-
+   const [accounts,setAccounts] = useState<accounts[] | null>([]);
+   const [accountid, setAccountid] = useState<accounts["id"]>("");
+   const [transactionlink, setTransactionlink] = useState<string | null>("");
+  
+   
+   async function getTransactions(){
+        const res = await axios.get('http://localhost:5000/getTransactions', {
+          params: {
+            transactionlink : transactionlink
+          }
+        });
+        console.log(res);
+   }
+   async function getAccountDetails(accessToken: string|null){
     const res = await axios.get('http://localhost:5000/accounts', {
      params:{
       accessToken:accessToken
      } 
-    })
+    });
        setAccounts(res.data);
-       console.log(res.data);
-       console.log(accounts);
+       setAccountid(res.data[0].id)
+       setTransactionlink(res.data[0].links.transactions);
  }
-
-
   useEffect(() => {
-    
     const script = document.createElement("script");
     script.src = "https://cdn.teller.io/connect/connect.js";
     script.async = true;
@@ -90,15 +98,16 @@ function LinkToTeller() {
 
   }, []);
 
-
   return (
     <div className="App">
-    <button id="myButton" >
-      Open Teller
-    </button>
+     {
+      transactionlink === "" ?
+       <button id="myButton" > Open Teller </button>
+      :
+       <button onClick = {getTransactions}>Show Transaction</button>
+     }
     </div>
   );
 }
-
 
 export default LinkToTeller
