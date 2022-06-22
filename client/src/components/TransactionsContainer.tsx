@@ -1,38 +1,31 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { Route, withRouter, Switch, RouteComponentProps } from 'react-router-dom';
 import InsertData from './InsertData';
 
 // To get transaction list from Plaid
 type AppProps = {
     accessToken : string | null;
 }
-class Transactions extends React.Component<AppProps & RouteComponentProps> {
-    state = {transactions: []}
-    _isMounted:boolean = false;
-    componentDidMount(){
-        this.getTransactions()
-    }  
-    componentWillUnmount(){
-        this._isMounted = false;
-    }
 
-    getTransactions = async () => {
-        const accessToken = this.props.accessToken
+function Transactions (props : AppProps) {
+   const [transactions,setTransactions] = useState([]);
+    
+
+    async function getTransactions () {
+        const accessToken = props.accessToken;
 
         const res = await axios.post('http://localhost:5000/transactions', {accessToken: accessToken})
         let transactions = res.data.transactions
-        if(this._isMounted)
-        this.setState({ transactions: transactions })
-    }
 
-    render(){
+        setTransactions(transactions)
+    }
+    useEffect(() => {
+         getTransactions();
+    });
+
         return (
-            <Switch> 
-                <Route exact path="/home" render={() => <InsertData transactions={this.state.transactions}/>} />
-            </Switch>
+         <InsertData transactions={transactions}/>
         )
     }
-}
 
-export default withRouter(Transactions)
+export default Transactions

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from "./Link";
 import axios from "axios";
 import TransactionsContainer from './TransactionsContainer'
-import { Route, withRouter, Switch,RouteComponentProps } from 'react-router-dom';
+import { withRouter,RouteComponentProps } from 'react-router-dom';
 
 interface accesstoken {
   access_token: string | null;
@@ -53,11 +53,8 @@ class LinktoPlaid extends React.Component<RouteComponentProps> {
       this.state.access_token === null ? 
         <Link token={this.state.token} accessToken={this.state.access_token} getAccessToken={this.getAccessToken} /> 
         : 
-        <Switch>
-          <Route path="/home" render={(routerprops) =><TransactionsContainer accessToken={this.state.access_token} />} />
-        </Switch>
-    } 
-
+        <TransactionsContainer accessToken={this.state.access_token} />
+      } 
       </div>
       </>
     );
