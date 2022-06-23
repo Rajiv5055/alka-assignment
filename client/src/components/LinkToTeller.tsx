@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios from 'axios';
 import {useState,useEffect} from 'react';
 
@@ -45,69 +47,68 @@ declare const window:any;
 
 
 function LinkToTeller() {
-   const [accounts,setAccounts] = useState<accounts[] | null>([]);
-   const [accountid, setAccountid] = useState<accounts["id"]>("");
-   const [transactionlink, setTransactionlink] = useState<string | null>("");
+	const [accountid, setAccountid] = useState<accounts['id']>('');
+	const [transactionlink, setTransactionlink] = useState<string | null>('');
   
-   async function getTransactions(){
-        const res = await axios.get('http://localhost:5000/getTransactions', {
-          params: {
-            accountid : accountid
-          }
-        });
-        console.log(res);
-   }
+	async function getTransactions(){
+		const res = await axios.get('http://localhost:5000/getTransactions', {
+			params: {
+				accountid : accountid
+			}
+		});
+		console.log(res);
+	}
    
-   async function getAccountDetails(accessToken: string|null){
-    const res = await axios.get('http://localhost:5000/accounts', {
-     params:{
-      accessToken:accessToken
-     } 
-    });
-       setAccounts(res.data);
-       setAccountid(res.data[0].id)
-       setTransactionlink(res.data[0].links.transactions);
- }
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.teller.io/connect/connect.js";
-    script.async = true;
-    document.head.appendChild(script);
-    var tellerConnect: any = window.TellerConnect.setup({
-        applicationId: "app_o2qpi4tealt28kqksq000",
-        environment: "sandbox",
-        onInit: function() {
-          console.log("Teller Connect has initialized");
-        },
-        // Part 3. Handle a successful enrollment's accessToken
-        onSuccess: function(enrollment:enrollments) {
-          console.log("User enrolled successfully ->", enrollment.accessToken);
-          getAccountDetails(enrollment.accessToken);
-        },
-        onExit: function() {
-          console.log("User closed Teller Connect");
-        }
+	async function getAccountDetails(accessToken: string|null){
+		const res = await axios.get('http://localhost:5000/accounts', {
+			params:{
+				accessToken:accessToken
+			} 
+		});
+		setAccountid(res.data[0].id);
+		setTransactionlink(res.data[0].links.transactions);
+	}
+	useEffect(() => {
+		const script = document.createElement('script');
+		script.src = 'https://cdn.teller.io/connect/connect.js';
+		script.async = true;
+		document.head.appendChild(script);
+		const tellerConnect: any = window.TellerConnect.setup({
+			applicationId: 'app_o2qpi4tealt28kqksq000',
+			environment: 'sandbox',
+			onInit: function() {
+				console.log('Teller Connect has initialized');
+			},
+			// Part 3. Handle a successful enrollment's accessToken
+			onSuccess: function(enrollment:enrollments) {
+				console.log('User enrolled successfully ->', enrollment.accessToken);
+				getAccountDetails(enrollment.accessToken);
+			},
+			onExit: function() {
+				console.log('User closed Teller Connect');
+			}
 
-    });
+		});
 
     
-    var el = document.getElementById("myButton");
-    if(el !== null)
-    el.addEventListener("click", function() {
-       tellerConnect.open();
-    });
+		const el = document.getElementById('myButton');
+		if(el !== null)
+			el.addEventListener('click', function() {
+				tellerConnect.open();
+			});
 
-  }, []);
-  return (
-    <div className="App">
-     {
-      transactionlink === "" ?
-       <button id="myButton" > Open Teller </button>
-      :
-       <button onClick = {getTransactions}>Show Transaction</button>
-     }
-    </div>
-  );
+	}, []);
+  
+	return (
+		<div className="App">
+			{
+				transactionlink === '' ?
+					<button id="myButton" > Open Teller </button>
+					:
+					<button onClick = {getTransactions}>Show Transaction</button>
+			}
+		</div>
+	);
 }
 
-export default LinkToTeller
+export default LinkToTeller;

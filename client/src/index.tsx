@@ -6,12 +6,12 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
-  <Router>
-    <div>
-      <App />
-    </div>
-  </Router>,
-  document.getElementById('root')
+	<Router>
+		<div>
+			<App />
+		</div>
+	</Router>,
+	document.getElementById('root')
 );
 
 reportWebVitals();
