@@ -1,24 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import React from 'react';
+
 type AppProps = {
-    key: number;
-    account_id: string;
-    amount: string;
-    category: string;
+    key: any;
+    account_id: any;
+    amount: any;
+    category: any;
     date: any; 
-    name: string;
+    name: any;
 }
 function TransItem (props: AppProps) {
-	return (
-		<tbody>
-			<tr>
-				<td>{props.date}</td>
-				<td>{props.category}</td>
-				<td>{props.name}</td>
-				<td>{props.amount}</td>
-			</tr>
-		</tbody>
-	);
+    return (
+        <tbody>
+            <tr>
+                <td>{props.date}</td>
+                <td>{props.category}</td>
+                <td>{props.name}</td>
+                <td>{props.amount}</td>
+            </tr>
+        </tbody>
+    );
 }
 
 export default TransItem;

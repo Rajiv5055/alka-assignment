@@ -2,11 +2,11 @@ import {useState} from 'react';
 import './App.css';
 import LinktoPlaid from './components/LinktoPlaid';
 import { withRouter } from 'react-router-dom';
-import LinkToTeller from './components/LinkToTeller';
+import LinkToTeller from './components/LinktoTeller';
 
 function App() {  
 	const [where, setWhere] = useState<string>('');
-	function startPlaid(): void{
+	function startPlaid(){
 		setWhere('Plaid');
 	}
 	function startTeller(){

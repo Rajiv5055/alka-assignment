@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
