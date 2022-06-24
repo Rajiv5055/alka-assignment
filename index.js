@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
+const axios_1 = __importDefault(require("axios"));
 dotenv_1.default.config();
 const plaid_1 = require("plaid");
 const configuration = new plaid_1.Configuration({
@@ -51,14 +52,6 @@ app.post('/create_link_token', (req, res) => __awaiter(void 0, void 0, void 0, f
     return res.send({ link_token: response.data.link_token });
 }));
 // eslint-disable-next-line no-unused-vars
-/*app.post('/get_link_token', async(req:any, res:any) => {
-  // eslint-disable-next-line no-unused-vars
-  const response = await client.getLinkToken(linkToken).catch((_err) => {
-    if(!linkToken){
-        return "no link token"
-    }
-  });
-})*/
 app.post('/get_access_token', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { publicToken } = req.body;
     const response = yield client
@@ -79,34 +72,32 @@ app.post('/transactions', (req, res) => __awaiter(void 0, void 0, void 0, functi
     return res.send({ transactions: transactions });
 }));
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
-/*app.get('/accounts', async(req,res)=>{
-  const accessToken = req.query.accessToken;
-  try {
-    const response = await axios("https://api.teller.io/accounts", {
-      auth : {
-        username : accessToken,
-        password : ""
-      }
-    });
-     res.status(200).json(response.data);
-  }
-  catch(err){
-    res.status(500).json({meassage:err});
-  }
-});
-
-
-app.get('/getTransactions', async(req,res)=>{
- const id = req.query.accountid;
- const url = `https://api.teller.io/accounts/${id}/transactions`
- console.log(url);
-  try{
-    const response = await axios.get(url);
-    res.status(200).json(response.data);
-    console.log(res);
-   }
-   catch(err){
-    res.status(500).json({message:err});
-    console.log(err);
-   }
-});*/ 
+app.get('/accounts', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const accessToken = req.query.accessToken;
+    try {
+        const response = yield (0, axios_1.default)("https://api.teller.io/accounts", {
+            auth: {
+                username: accessToken,
+                password: ""
+            }
+        });
+        res.status(200).json(response.data);
+    }
+    catch (err) {
+        res.status(500).json({ meassage: err });
+    }
+}));
+app.get('/getTransactions', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.query.accountid;
+    const url = `https://api.teller.io/accounts/${id}/transactions`;
+    console.log(url);
+    try {
+        const response = yield axios_1.default.get(url);
+        res.status(200).json(response.data);
+        console.log(res);
+    }
+    catch (err) {
+        res.status(500).json({ message: err });
+        console.log(err);
+    }
+}));

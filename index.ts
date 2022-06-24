@@ -45,14 +45,7 @@ app.post('/create_link_token', async (req:any, res:any) => {
 });
 
 // eslint-disable-next-line no-unused-vars
-/*app.post('/get_link_token', async(req:any, res:any) => {
-  // eslint-disable-next-line no-unused-vars
-  const response = await client.getLinkToken(linkToken).catch((_err) => {
-    if(!linkToken){
-        return "no link token"
-    }
-  });
-})*/
+
 
 app.post('/get_access_token', async(req:any, res:any) => {
 
@@ -78,8 +71,8 @@ app.post('/transactions', async(req, res) =>{
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
 
-/*app.get('/accounts', async(req,res)=>{
-  const accessToken = req.query.accessToken;
+app.get('/accounts', async(req:any,res:any)=>{
+  const accessToken:any = req.query.accessToken;
   try {
     const response = await axios("https://api.teller.io/accounts", {
       auth : {
@@ -95,7 +88,7 @@ app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
 });
 
 
-app.get('/getTransactions', async(req,res)=>{
+app.get('/getTransactions', async(req:any,res:any)=>{
  const id = req.query.accountid;
  const url = `https://api.teller.io/accounts/${id}/transactions`
  console.log(url);
@@ -108,4 +101,4 @@ app.get('/getTransactions', async(req,res)=>{
     res.status(500).json({message:err});
     console.log(err);
    }
-});*/
+});
