@@ -40,7 +40,8 @@ type accounts = {
   type: string | null;
 }
   
-declare const window:any;
+declare const window: any;
+
 function LinkToTeller() {
     const [accountid, setAccountid] = useState<accounts['id']>('');
     const [transactionlink, setTransactionlink] = useState<string | null>('');
@@ -85,15 +86,12 @@ function LinkToTeller() {
         }
 
     });
-
-    
     var el = document.getElementById("myButton");
     if(el !== null)
     el.addEventListener("click", function() {
        tellerConnect.open();
     });
   }, []);
-
 
   return (
     <div className="App">
