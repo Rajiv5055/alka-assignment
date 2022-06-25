@@ -3,6 +3,9 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import axios from 'axios';
+import * as trpc from '@trpc/server';
+import * as trpcExpress from "@trpc/server/adapters/express";
+
 dotenv.config();
 import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid';
 
@@ -24,6 +27,62 @@ app.use(bodyParser.json());
 
 
 const PORT = 5000;
+
+
+const appRouter = trpc.router()
+  .query('hello', {
+    resolve() {
+      return 'hello World';      
+    }
+  })
+  .mutation('create_link_token', {
+    async resolve() {
+      const response = await client.linkTokenCreate({
+      user: {
+        client_user_id: '123-test-user-id',
+      },
+      client_name: 'Plaid Test App',
+      products: ['auth', 'transactions'],
+      country_codes: ['US'],
+      language: 'en',
+      webhook: 'https://sample-web-hook.com',
+      account_filters: {
+        depository: {
+          account_subtypes: ['checking', 'savings'],
+        },
+      },
+      })
+      console.log(response);
+      return response.data.link_token; 
+     }
+   })
+  .mutation('get_access_token', {
+    async resolve(req:any) {
+      const {publicToken} = req.body
+  const response = await client
+    .itemPublicTokenExchange({
+      public_token: publicToken
+    });
+      return response.data.access_token; 
+     }
+  })
+  .mutation('transactions', {
+    async resolve(req:any) {
+      const { accessToken } = req.body;
+  
+      const response = await client
+        .transactionsGet({
+          access_token: accessToken,
+          start_date: '2020-01-01',
+          end_date: '2021-01-31',
+        });
+      const transactions = response.data.transactions;
+      return transactions; 
+     } 
+   })
+
+
+
 
 app.post('/create_link_token', async (req:any, res:any) => {
     const response = await client.linkTokenCreate({
@@ -102,3 +161,13 @@ app.get('/getTransactions', async(req:any,res:any)=>{
     console.log(err);
    }
 });
+
+export type AppRouter = typeof appRouter;
+
+app.use(
+  "/trpc",
+  trpcExpress.createExpressMiddleware({
+    router: appRouter,
+    createContext: () => null,
+  })
+);

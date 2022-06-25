@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@trpc/server": "^9.25.3",
     "@types/body-parser": "^1.19.2",
     "concurrently": "^7.2.2",
     "cors": "^2.8.5",
